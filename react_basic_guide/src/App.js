@@ -1,7 +1,11 @@
+import Card from './components/card/card.component';
+import './App.css';
+
 const App = () => {
+  
   return (
     <div className='App'>
-      <h1>Hello linh</h1>
+      <Card />
     </div>
   );
 };
