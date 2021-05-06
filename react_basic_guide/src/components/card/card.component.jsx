@@ -1,4 +1,5 @@
 import Expenses from '../expenses/expenses.component';
+import NewExpense from '../new-expense/new-expense.component';
 import './card.styled.scss';
 
 const Card = () => {
@@ -23,8 +24,14 @@ const Card = () => {
       date: new Date(2021, 5, 12),
     },
   ];
+
+  const addDataHandler = data => {
+    expenses.push(data);
+    console.log(expenses);
+  };
   return (
     <div className='card'>
+      <NewExpense onAddDataHandler={addDataHandler} />
       <Expenses expenses={expenses} />
     </div>
   );
