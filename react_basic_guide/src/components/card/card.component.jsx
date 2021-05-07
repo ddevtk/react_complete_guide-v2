@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import Expenses from '../expenses/expenses.component';
 import NewExpense from '../new-expense/new-expense.component';
 import './card.styled.scss';
 
 const Card = () => {
-  const expenses = [
+  const [expenses, setExpenses] = useState([
     {
       id: 'e1',
       title: 'Toilet Paper',
@@ -23,12 +24,14 @@ const Card = () => {
       amount: 450,
       date: new Date(2021, 5, 12),
     },
-  ];
+  ]);
 
   const addDataHandler = data => {
-    expenses.push(data);
-    console.log(expenses);
+    setExpenses(preState => {
+      return [data, ...preState];
+    });
   };
+
   return (
     <div className='card'>
       <NewExpense onAddDataHandler={addDataHandler} />

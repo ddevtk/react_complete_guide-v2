@@ -17,14 +17,16 @@ const ExpenseItem = ({ title, amount, date }) => {
     setTitleChanged('Update');
   };
   return (
-    <div className='expense-item'>
-      <ExpenseDate year={year} month={month} day={day} />
-      <div className='expense-item__description'>
-        <h2>{titleChanged}</h2>
-        <div className='expense-item__price'>${amount}</div>
-        <button onClick={changedHandler}>Change</button>
+    <li>
+      <div className='expense-item'>
+        <ExpenseDate year={year} month={month} day={day} />
+        <div className='expense-item__description'>
+          <h2>{titleChanged}</h2>
+          <div className='expense-item__price'>${amount}</div>
+          <button onClick={changedHandler}>Change</button>
+        </div>
       </div>
-    </div>
+    </li>
   );
 };
 export default ExpenseItem;
