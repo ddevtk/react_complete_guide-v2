@@ -23,8 +23,8 @@ function App() {
   return (
     <div className='App'>
       <AddUser onAddToList={addUserHandler} />
-      {/* {userListContent} */}
-      <UserList users={userList} />
+      {userListContent}
+      {/* <UserList users={userList} /> */}
     </div>
   );
 }

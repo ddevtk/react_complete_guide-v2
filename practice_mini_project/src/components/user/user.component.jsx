@@ -1,36 +1,42 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import ErrorModal from '../error-modal/error-modal.component';
 import Button from '../UI/button/button.component';
 import Card from '../UI/card/card.component';
 import classes from './user.module.css';
 
 const AddUser = ({ onAddToList }) => {
-  const [credential, setCredential] = useState({
-    username: '',
-    age: '',
-  });
+  // const [credential, setCredential] = useState({
+  //   username: '',
+  //   age: '',
+  // });
   const [error, setError] = useState();
 
-  const { username, age } = credential;
+  const nameInputRef = useRef();
+  const ageInputRef = useRef();
 
-  const changedHandler = e => {
-    const { name, value } = e.target;
-    setCredential(preState => {
-      return { ...preState, [name]: value };
-    });
-  };
+  // const { username, age } = credential;
+
+  // const changedHandler = e => {
+  //   const { name, value } = e.target;
+  //   setCredential(preState => {
+  //     return { ...preState, [name]: value };
+  //   });
+  // };
 
   const addUserHandler = e => {
     e.preventDefault();
 
-    if (username.trim().length === 0 || age.trim().length === 0) {
+    const nameInput = nameInputRef.current.value;
+    const ageInput = ageInputRef.current.value;
+
+    if (nameInput.trim().length === 0 || ageInput.trim().length === 0) {
       setError({
         title: 'Invalid input',
         message: 'Please enter a valid name and age (non-empty values) 🚀🚀🚀 ',
       });
       return;
     }
-    if (+age < 1) {
+    if (+ageInput < 1) {
       setError({
         title: 'Invalid age',
         message: 'Please enter a valid age  🚀🚀🚀 ',
@@ -38,11 +44,14 @@ const AddUser = ({ onAddToList }) => {
       return;
     }
 
-    setCredential(preState => {
-      return { ...preState };
-    });
+    // setCredential(preState => {
+    //   return { ...preState };
+    // });
 
-    onAddToList(username, age);
+    nameInputRef.current.value = '';
+    ageInputRef.current.value = '';
+
+    onAddToList(nameInput, ageInput);
   };
   const hiddenError = () => {
     setError(null);
@@ -65,17 +74,19 @@ const AddUser = ({ onAddToList }) => {
           <input
             id='username'
             type='text'
-            name='username'
-            value={username}
-            onChange={changedHandler}
+            // name='username'
+            // value={username}
+            // onChange={changedHandler}
+            ref={nameInputRef}
           />
           <label htmlFor='age'> Age (years) </label>
           <input
             id='age'
             type='number'
-            name='age'
-            value={age}
-            onChange={changedHandler}
+            // name='age'
+            // value={age}
+            // onChange={changedHandler}
+            ref={ageInputRef}
           />
           <Button type='submit'>Add user</Button>
         </form>

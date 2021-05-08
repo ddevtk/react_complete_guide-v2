@@ -6,12 +6,7 @@ const UserList = ({ users }) => {
     <Card className={classes.users}>
       <ul>
         {users.length === 0 ? (
-          <li
-            className={classes.message}
-            // style={{ border: 'none', textAlign: 'center', fontWeight: 'bold' }}
-          >
-            Please type your information
-          </li>
+          <li className={classes.message}>Please type your information</li>
         ) : (
           users.map(user => (
             <li key={user.id}>
