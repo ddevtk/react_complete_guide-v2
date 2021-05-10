@@ -1,20 +1,26 @@
+import { useContext } from 'react';
+import { CartContext } from '../../store/cart-context/cartProvider';
 import classes from './cart-item.module.css';
 
-const CartItem = props => {
-  const price = `$${props.price.toFixed(2)}`;
+const CartItem = ({ item }) => {
+  const { addItem, removeItem } = useContext(CartContext);
+  console.log(item);
+
+  const { price, amount, name } = item;
+  const priceTransformed = `${price.toFixed(2)}`;
 
   return (
     <li className={classes['cart-item']}>
       <div>
-        <h2>{props.name}</h2>
+        <h2>{name}</h2>
         <div className={classes.summary}>
-          <span className={classes.price}>{price}</span>
-          <span className={classes.amount}>x {props.amount}</span>
+          <span className={classes.price}>${priceTransformed}</span>
+          <span className={classes.amount}>x {amount}</span>
         </div>
       </div>
       <div className={classes.actions}>
-        <button onClick={props.onRemove}>−</button>
-        <button onClick={props.onAdd}>+</button>
+        <button onClick={() => removeItem({ ...item, amount: 1 })}>−</button>
+        <button onClick={() => addItem({ ...item, amount: 1 })}>+</button>
       </div>
     </li>
   );

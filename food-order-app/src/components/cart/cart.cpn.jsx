@@ -7,12 +7,11 @@ import classes from './cart.module.css';
 
 const Cart = () => {
   const { items, amount } = useContext(CartContext);
-  console.log(amount);
+
   const cartItemContent = (
     <ul className={classes['cart-items']}>
-      {items.map(item => (
-        <CartItem key={item.id} {...item} />
-      ))}
+      {items.length > 0 &&
+        items.map(item => <CartItem key={item.id} item={item} />)}
     </ul>
   );
   const { onHidden } = useContext(showCartContext);
@@ -21,7 +20,7 @@ const Cart = () => {
       {cartItemContent}
       <div className={classes.total}>
         <span>Total amount</span>
-        <span>${amount}</span>
+        <span>${`${amount.toFixed(2)}`}</span>
       </div>
       <div className={classes.actions}>
         <button className={classes['button--alt']} onClick={onHidden}>
