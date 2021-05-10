@@ -6,7 +6,7 @@ export const addItemToCart = (cartItems, cartItemToAdd) => {
     );
   }
 
-  return [...cartItems, { ...cartItemToAdd, amount: 1 }];
+  return [...cartItems, { ...cartItemToAdd }];
 };
 
 export const reduceItemFromCart = (cartItems, cartItemToReduce) => {
