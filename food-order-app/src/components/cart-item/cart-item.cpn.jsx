@@ -3,8 +3,7 @@ import { CartContext } from '../../store/cart-context/cartProvider';
 import classes from './cart-item.module.css';
 
 const CartItem = ({ item }) => {
-  const { addItem, removeItem } = useContext(CartContext);
-  console.log(item);
+  const { addItem, removeItem, deleteItem } = useContext(CartContext);
 
   const { price, amount, name } = item;
   const priceTransformed = `${price.toFixed(2)}`;
@@ -19,8 +18,11 @@ const CartItem = ({ item }) => {
         </div>
       </div>
       <div className={classes.actions}>
-        <button onClick={() => removeItem({ ...item, amount: 1 })}>−</button>
-        <button onClick={() => addItem({ ...item, amount: 1 })}>+</button>
+        <div className={classes.group}>
+          <button onClick={() => removeItem({ ...item, amount: 1 })}>−</button>
+          <button onClick={() => addItem({ ...item, amount: 1 })}>+</button>
+        </div>
+        <span onClick={() => deleteItem(item)}>&#10008;</span>
       </div>
     </li>
   );

@@ -34,12 +34,27 @@
 
 .actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
-
+.group {
+  display: flex;
+  align-items: center;
+}
+.actions span {
+  margin-left: 1rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  font-size: 2rem;
+  color: #8a2b06;
+}
 @media (min-width: 768px) {
   .actions {
     flex-direction: row;
+  }
+  .group {
+    flex-direction: column;
   }
 }
 
