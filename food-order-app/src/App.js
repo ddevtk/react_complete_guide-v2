@@ -1,26 +1,21 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import './App.css';
 import Cart from './components/cart/cart.cpn';
 import Header from './components/header/header.cpn';
 import Meals from './components/meals/meals.cpn';
+import CartProvider from './store/cart-context/cartProvider';
+import { showCartContext } from './store/show-cart-context/showCartProvider';
 
 const App = () => {
-  const [cartShown, setCartShown] = useState(false);
-  const showCartHandler = () => {
-    setCartShown(true);
-  };
-  const hiddenCartHandler = () => {
-    setCartShown(false);
-  };
-
+  const { isShown } = useContext(showCartContext);
   return (
-    <div className='App'>
-      {cartShown && <Cart onHidden={hiddenCartHandler} />}
-      <Header onShow={showCartHandler} />
+    <CartProvider>
+      {isShown && <Cart />}
+      <Header />
       <main>
         <Meals />
       </main>
-    </div>
+    </CartProvider>
   );
 };
 

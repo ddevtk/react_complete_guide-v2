@@ -1,11 +1,19 @@
+import { useRef } from 'react';
 import FormInput from '../../form-input/form-input.cpn';
 import classes from './meal-item-form.module.css';
 
-const MealItemForm = () => {
+const MealItemForm = ({ onAddAmount }) => {
+  const amountRef = useRef();
+
+  const submitHandler = e => {
+    e.preventDefault();
+    onAddAmount(+amountRef.current.value);
+  };
   return (
-    <form className={classes.form}>
+    <form className={classes.form} onSubmit={submitHandler}>
       <FormInput
         label='Amount'
+        ref={amountRef}
         input={{
           name: 'amount',
           id: 'amount',
@@ -16,7 +24,7 @@ const MealItemForm = () => {
           defaultValue: '1',
         }}
       />
-      <button>+ Add</button>
+      <button type='submit'>+ Add</button>
     </form>
   );
 };

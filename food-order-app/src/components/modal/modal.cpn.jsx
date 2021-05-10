@@ -1,19 +1,21 @@
 import ReactDOM from 'react-dom';
-import { Fragment } from 'react';
+import { Fragment, useContext } from 'react';
 import classes from './modal.module.css';
+import { showCartContext } from '../../store/show-cart-context/showCartProvider';
 
-const Backdrop = ({ onHidden }) => (
-  <div className={classes.backdrop} onClick={onHidden} />
-);
+const Backdrop = () => {
+  const { onHidden } = useContext(showCartContext);
+  return <div className={classes.backdrop} onClick={onHidden} />;
+};
 const ModalOverlay = ({ children }) => {
   return <div className={classes.modal}>{children}</div>;
 };
 const portalEl = document.getElementById('overlay');
 
-const Modal = ({ children, onHidden }) => {
+const Modal = ({ children }) => {
   return (
     <Fragment>
-      {ReactDOM.createPortal(<Backdrop onHidden={onHidden} />, portalEl)};
+      {ReactDOM.createPortal(<Backdrop />, portalEl)};
       {ReactDOM.createPortal(<ModalOverlay children={children} />, portalEl)};
     </Fragment>
   );
