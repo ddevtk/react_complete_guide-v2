@@ -7,7 +7,7 @@ const INITIAL_CART_STATE = {
   totalAmount: 0,
 };
 
-const cartReducer = (state, action) => {
+const cartReducer = (state = INITIAL_CART_STATE, action) => {
   switch (action.type) {
     case 'ADD_ITEM':
       return {
@@ -29,12 +29,15 @@ const cartReducer = (state, action) => {
       );
 
       return {
+        ...state,
         items: newItems,
         totalAmount: newItems.reduce(
           (acc, value) => acc + value.price * value.amount,
           0
         ),
       };
+    case 'CLEAR_CART':
+      return INITIAL_CART_STATE;
     default:
       return state;
   }
@@ -58,12 +61,16 @@ const CartProvider = ({ children }) => {
   const deleteItemFromCart = item => {
     dispatchCartAction({ type: 'DELETE_ITEM', payload: item });
   };
+  const clearCart = () => {
+    dispatchCartAction({ type: 'CLEAR_CART' });
+  };
   const cartContext = {
     items: cartState.items,
     amount: cartState.totalAmount,
     addItem: addItemToCart,
     removeItem: removeItemFromCart,
     deleteItem: deleteItemFromCart,
+    clearCart: clearCart,
   };
   return (
     <CartContext.Provider value={cartContext}>{children}</CartContext.Provider>

@@ -1,47 +1,68 @@
+import { useEffect, useState } from 'react';
 import Card from '../card/card.cpn';
 import MealItem from '../meal-item/meal-item.cpn';
 import classes from './meal-available.module.css';
 
-const DUMMY_MEALS = [
-  {
-    id: 'm1',
-    name: 'Sushi',
-    description: 'Finest fish and veggies',
-    price: 22.99,
-  },
-  {
-    id: 'm2',
-    name: 'Schnitzel',
-    description: 'A german specialty!',
-    price: 16.5,
-  },
-  {
-    id: 'm3',
-    name: 'Barbecue Burger',
-    description: 'American, raw, meaty',
-    price: 12.99,
-  },
-  {
-    id: 'm4',
-    name: 'Green Bowl',
-    description: 'Healthy...and green...',
-    price: 18.99,
-  },
-];
-
 const MealAvailable = () => {
-  const mealList = DUMMY_MEALS;
-  return (
-    <div className={classes.meals}>
-      <Card>
-        <ul>
-          {mealList.map(meal => (
+  const [meals, setMeals] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    const fetchMeals = async () => {
+      const response = await fetch(
+        'https://fooder-order-app-default-rtdb.asia-southeast1.firebasedatabase.app/meals.json'
+      );
+
+      if (!response.ok) {
+        throw new Error('fail request');
+      }
+
+      const dataObj = await response.json();
+      console.log(dataObj);
+
+      const loadedMeals = [];
+
+      for (const key in dataObj) {
+        loadedMeals.push({
+          id: key,
+          name: dataObj[key].name,
+          description: dataObj[key].description,
+          price: dataObj[key].price,
+        });
+      }
+
+      setMeals(loadedMeals);
+      setIsLoading(false);
+    };
+
+    fetchMeals().catch(error => {
+      setError(error.message);
+      setIsLoading(false);
+    });
+  }, []);
+
+  let content = (
+    <Card>
+      <ul>
+        <li>
+          {meals.map(meal => (
             <MealItem key={meal.id} {...meal} />
           ))}
-        </ul>
-      </Card>
-    </div>
+        </li>
+      </ul>
+    </Card>
   );
+
+  if (isLoading) {
+    content = <p className={classes['loading-text']}>Loading ...</p>;
+  }
+
+  if (error) {
+    content = <p className={classes['error-text']}>{error}</p>;
+  }
+
+  return <div className={classes.meals}>{content}</div>;
 };
 
 export default MealAvailable;
