@@ -1,27 +1,33 @@
-import { createStore } from 'redux';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import ReduxLogger from 'redux-logger';
+import persistReducer from 'redux-persist/es/persistReducer';
+import persistStore from 'redux-persist/es/persistStore';
 
-const INITIAL_COUNT_STATE = {
-  counter: 0,
+import storage from 'redux-persist/lib/storage';
+import authSlice from './authentication/auth.reducer';
+import counterSlice from './counter/counter.reducer';
+
+/////////////////////////////////
+// pRootReducer
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['counter'],
 };
 
-const countReducer = (state = INITIAL_COUNT_STATE, action) => {
-  switch (action.type) {
-    case 'INCREMENT':
-      return {
-        ...state,
-        counter: state.counter + 1,
-      };
-    case 'DECREMENT':
-      return {
-        ...state,
-        counter: state.counter - 1,
-      };
+const rootReducer = combineReducers({
+  auth: authSlice.reducer,
+  counter: counterSlice.reducer,
+});
 
-    default:
-      return state;
-  }
-};
+const pRootReducer = persistReducer(persistConfig, rootReducer);
 
-const store = createStore(countReducer);
+/////////////////////////////////
+//Storage
+const store = configureStore({
+  reducer: pRootReducer,
+  middleware: [ReduxLogger],
+});
+const persistor = persistStore(store);
 
-export default store;
+export { store, persistor };
