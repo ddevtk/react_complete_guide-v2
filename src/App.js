@@ -1,20 +1,23 @@
-import './App.css';
-import MainHeader from './components/main-header/main-header.cpn';
-import { Route, Switch } from 'react-router';
-import Welcome from './pages/welcome/welcome.cpn';
-import Product from './pages/product/product.cpn';
-import ProductDetail from './pages/product-detail/product-detail.cpn';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import Layout from './components/layout/Layout';
+import AllQuotes from './pages/all-quotes';
+import NewQuote from './pages/new-quote';
+import NotFound from './pages/not-found';
+import QuoteDetail from './pages/quote-detail';
 
 function App() {
   return (
-    <div className='App'>
-      <MainHeader />
+    <Layout>
       <Switch>
-        <Route path='/welcome' component={Welcome} />
-        <Route exact path='/products' component={Product} />
-        <Route path='/products/:ProductId' component={ProductDetail} />
+        <Route exact path='/'>
+          <Redirect to='/quotes' />
+        </Route>
+        <Route exact path='/quotes' component={AllQuotes} />
+        <Route path='/quotes/:quoteId' component={QuoteDetail} />
+        <Route path='/new-quote' component={NewQuote} />
+        <Route path='*' component={NotFound} />
       </Switch>
-    </div>
+    </Layout>
   );
 }
 
