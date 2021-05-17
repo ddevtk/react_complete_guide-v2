@@ -4,12 +4,12 @@ import { useHistory, useLocation } from 'react-router';
 import QuoteItem from './QuoteItem';
 import classes from './QuoteList.module.css';
 
-const sortedQuote = (quote, asc) => {
+const sortedQuote = (quote, isAsc) => {
   return quote.sort((q1, q2) => {
-    if (asc) {
+    if (isAsc) {
       return q1.id > q2.id ? 1 : -1;
     } else {
-      return q2.id - q1.id ? 1 : -1;
+      return q1.id > q2.id ? -1 : 1;
     }
   });
 };
@@ -18,14 +18,18 @@ const QuoteList = ({ quotes }) => {
   const history = useHistory();
   const location = useLocation();
 
+
   const queryParams = new URLSearchParams(location.search);
+
   const isSortingAsc = queryParams.get('sort') === 'asc';
 
   const newQuotes = sortedQuote(quotes, isSortingAsc);
-  console.log(newQuotes);
 
   const sortingHandler = () => {
-    history.push('quotes?sort=' + (isSortingAsc ? 'desc' : 'asc'));
+    history.push({
+      pathname: location.pathname,
+      search: `?sort=${isSortingAsc ? 'desc' : 'asc'}`,
+    });
   };
 
   return (

@@ -16,8 +16,6 @@ const QuoteForm = ({ onAddQuote, isLoading }) => {
     const enteredAuthor = authorInputRef.current.value;
     const enteredText = textInputRef.current.value;
 
-    // optional: Could validate here
-
     onAddQuote({ author: enteredAuthor, text: enteredText });
   }
 
